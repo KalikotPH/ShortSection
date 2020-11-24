@@ -52,7 +52,9 @@
 					'title' => $post->post_title,
 					'class' => $class,
 					'preview' => SS_Globals::get_wp_featured_image($post->ID),
-					'address' => $post->post_content 
+					'address' => $post->post_content,
+					'platform' => "LAZADA",
+					'url' => "#"
 				);
 			}
 

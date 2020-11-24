@@ -13,34 +13,27 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
-            <div class="listing">
-                <form class="row" id="store_search_form" action="#" method="post" style="margin-bottom: 18px !important;">
-                    <div class="row form-group input-group" style="display: contents;">
-                        <input id="store_search" type="text" class="form-control" placeholder="Search..." aria-label="search" aria-describedby="basic-addon1" style="">
-                    </div>
-                </form>
-                <ul id="listing-cards" class="list-group">
-                    <script id="store-listing" type="text/x-handlebars-template"> 
-                        {{#each data}}
-                        <li class="list-group-item">
-                            <strong>{{title}}</strong> - Online Shop >>>
-                            <p style="font-style: italic;">{{address}}</p>
-                            <!-- <ul>
-                                <li style="display:block;">
-                                    <span>Phone: </span> +639294294225
-                                </li>
-                                <li style="display:block;">
-                                    <span>Email: </span> bytescrater@gmail.com
-                                </li>
-                            </ul> -->
-                        </li>
-                        {{/each}}
-                    </script>
-                </ul>
+        <div class="col-lg-4 md-12">
+            <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom: 30px;">
+                <li class="nav-item">
+                    <a class="nav-link active" id="shoppe-tab" data-toggle="tab" href="#shoppe" role="tab" aria-controls="shoppe" aria-selected="true">Shopee</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="lazada-tab" data-toggle="tab" href="#lazada" role="tab" aria-controls="lazada" aria-selected="true">Lazada</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent" style="margin-bottom: 25px;">
+                <div class="tab-pane fade show active" id="shoppe" role="tabpanel" aria-labelledby="shoppe-tab">
+                    <?php include_once("tab-shoppe.php"); ?>
+                </div>
+                
+                <div class="tab-pane fade" id="lazada" role="tabpanel" aria-labelledby="lazada-tab">
+                    <?php include_once("tab-lazada.php"); ?>
+                </div>
             </div>
         </div>
-        <div class="col-md-8">
+
+        <div class="col-lg-8 md-12">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -73,37 +66,9 @@
 <script type="text/javascript">
     jQuery(document).ready( function ( $ ) 
     {
-        $("#store_search_form").submit(function (e) {
-            e.preventDefault();
-            
-            // Get input field values
-            var search = $('#store_search').val();
-
-            loadListing({cat: "", search: search });
-        });
-
-        loadListing({cat: "" });
-        function loadListing(query) {
-            $.ajax({
-                dataType: 'json',
-                type: 'POST', 
-                data: query,
-                url: '<?= site_url() ?>/wp-json/shortsection/v1/stores/list',
-                success : function( data )
-                {
-                    var regs = document.getElementById('store-listing').innerHTML;
-                    var compiled = Handlebars.compile(regs);
-                    var genHtml = compiled(data);
-
-                    var carview = document.getElementById('listing-cards');
-                    carview.innerHTML = genHtml;
-                },
-                error : function(jqXHR, textStatus, errorThrown) 
-                {
-                    console.log("" + JSON.stringify(jqXHR) + " :: " + textStatus + " :: " + errorThrown);
-                }
-            });
-        }
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault()
+        })
 
         loadFeatured({ cat: "" }); 
         function loadFeatured(query) {

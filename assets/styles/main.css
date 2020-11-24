@@ -13,3 +13,11 @@
 }
 
 /* #endregion */
+
+.carousel-indicators li {
+    background-color: #F14EA9 !important;
+}
+
+.carousel-indicators .active {
+    background-color: #f7a6d2 !important;
+}
