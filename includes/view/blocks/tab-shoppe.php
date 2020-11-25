@@ -27,7 +27,13 @@
                         style="float: left; height: 100px; padding-right: 18px;"/>
                 </a>
                 <strong>{{title}}</strong>
-                <p style="font-style: italic; font-size: smaller;">{{address}}</p>
+                <p style="font-style: italic; font-size: smaller; margin-bottom: 0px;">{{address}}</p>
+                {{#isEmptyUrl url}}
+                    <p>No URL Found</p>
+                {{else}}
+                    <a href="{{url}}" target="_blank">GO TO {{platform}}</a>
+                {{/isEmptyUrl}}  
+                
                 <!-- <span>Visit </span> <a target="_blank" href="{{redirect}}">{{platform}}</a> -->
             </li>
             {{/each}}
@@ -38,6 +44,13 @@
 <script type="text/javascript">
     jQuery(document).ready( function ( $ ) 
     {
+        Handlebars.registerHelper('isEmptyUrl', function(arg1, options) {
+            if(arg1 == '') {
+                return options.fn(this);
+            }
+            return options.inverse(this);
+        });
+
         $("#shoppe_search_form").submit(function (e) {
             e.preventDefault();
             

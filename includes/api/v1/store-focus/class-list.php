@@ -53,8 +53,8 @@
 					'class' => $class,
 					'preview' => SS_Globals::get_wp_featured_image($post->ID),
 					'address' => $post->post_content,
-					'platform' => "LAZADA",
-					'url' => "#"
+					'platform' => get_post_meta($post->ID, 'online_shop_platform', true)  == "" ? "LINK" : get_post_meta($post->ID, 'online_shop_platform', true),
+					'url' => get_post_meta($post->ID, 'online_shop_link', true) == "" ? "#" : get_post_meta($post->ID, 'online_shop_link', true)
 				);
 			}
 

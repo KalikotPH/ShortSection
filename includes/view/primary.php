@@ -61,14 +61,31 @@
       );
       register_post_type( 'ss_sf_list', $args_for_storefocus_list );
 
+      function cm_check_if_selected($current, $value) {
+        if($current == $value) {
+          echo 'selected="selected"';
+        } else {
+          echo '';
+        }
+      }
+
       function cd_meta_box_cb()  
       {  
-        echo 'What you put here, show\'s up in the meta box';     
+        $selected = get_post_meta(get_the_ID(), "online_shop_platform", true);
+?>
+          <select id="online_shop_platform" name="online_shop_platform" class="" style="width: 20%;" 
+            value="<?= get_post_meta(get_the_ID(), "online_shop_platform", true) ?>">
+            <option value="SHOPEE" <?php cm_check_if_selected("SHOPEE", $selected) ?>>SHOPEE</option>
+            <option value="LAZADA" <?php cm_check_if_selected("LAZADA", $selected) ?>>LAZADA</option>
+          </select>
+          <input name="online_shop_link" id="online_shop_link" type="text" value="<?= get_post_meta(get_the_ID(), "online_shop_link", true) ?>" size="40" 
+            aria-required="true" placeholder="Paste Online Shop Link" style="width: 70%;">
+<?php
       }
 
       function cd_meta_box_add()
       {
-        add_meta_box( 'my-meta-box-id', 'Online Store Details', 'cd_meta_box_cb', 'ss_sf_list', 'normal', 'high' );
+        add_meta_box( 'cm_short_section_save', 'Online Store Details', 'cd_meta_box_cb', 'ss_sf_list', 'normal', 'high' );
       } 
       add_action( 'add_meta_boxes', 'cd_meta_box_add' );
 
@@ -77,51 +94,22 @@
     #endregion
 
     /**
- * Save the metabox data
- */
-function cm_short_section_save( $post_id, $post ) {
+     * Save the metabox data
+     */
+    function cm_short_section_save() {
 
-	// Return if the user doesn't have edit permissions.
-	if ( ! current_user_can( 'edit_post', $post_id ) ) {
-		return $post_id;
-	}
-
-	// Verify this came from the our screen and with proper authorization,
-	// because save_post can be triggered at other times.
-	if ( ! isset( $_POST['location'] ) || ! wp_verify_nonce( $_POST['event_fields'], basename(__FILE__) ) ) {
-		return $post_id;
-	}
-
-	// Now that we're authenticated, time to save the data.
-	// This sanitizes the data from the field and saves it into an array $events_meta.
-	$events_meta['location'] = esc_textarea( $_POST['location'] );
-
-	// Cycle through the $events_meta array.
-	// Note, in this example we just have one item, but this is helpful if you have multiple.
-	foreach ( $events_meta as $key => $value ) :
-
-		// Don't store custom data twice
-		if ( 'revision' === $post->post_type ) {
-			return;
-		}
-
-		if ( get_post_meta( $post_id, $key, false ) ) {
-			// If the custom field already has a value, update it.
-			update_post_meta( $post_id, $key, $value );
-		} else {
-			// If the custom field doesn't have a value, add it.
-			add_post_meta( $post_id, $key, $value);
-		}
-
-		if ( ! $value ) {
-			// Delete the meta key if there's no value
-			delete_post_meta( $post_id, $key );
-		}
-
-	endforeach;
-
-}
-add_action( 'save_post', 'cm_short_section_save', 1, 2 );
+      global $post;
+  
+      if(isset($_POST["online_shop_platform"])) {
+        update_post_meta($post->ID, 'online_shop_platform', $_POST["online_shop_platform"]);
+      }
+          
+      if(isset($_POST["online_shop_link"])) {
+        update_post_meta($post->ID, 'online_shop_link', $_POST["online_shop_link"]);
+      }  
+      
+    }
+    add_action( 'save_post', 'cm_short_section_save');
 
     #region Shortcodes
     function ss_sf_storebanner() { 
