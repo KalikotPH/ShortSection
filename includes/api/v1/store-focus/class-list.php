@@ -40,6 +40,8 @@
 
 			$initialize = false;
 			$output = array();
+			$counting = 0;
+
 			foreach( $posts as $post ) {    // Pluck the id and title attributes
 				$class = $initialize == true ? "" : "active";
 
@@ -51,11 +53,14 @@
 					'id' => $post->ID, 
 					'title' => $post->post_title,
 					'class' => $class,
+					'position' => $counting,
 					'preview' => SS_Globals::get_wp_featured_image($post->ID),
 					'address' => $post->post_content,
 					'platform' => get_post_meta($post->ID, 'online_shop_platform', true)  == "" ? "LINK" : get_post_meta($post->ID, 'online_shop_platform', true),
 					'url' => get_post_meta($post->ID, 'online_shop_link', true) == "" ? "#" : get_post_meta($post->ID, 'online_shop_link', true)
 				);
+
+				$counting = $counting + 1;
 			}
 
 			// Step 9: Return result

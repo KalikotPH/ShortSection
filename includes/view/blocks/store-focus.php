@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-4 md-12">
-            <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom: 30px;">
+            <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom: 25px;">
                 <li class="nav-item">
                     <a class="nav-link active" id="shoppe-tab" data-toggle="tab" href="#shoppe" role="tab" aria-controls="shoppe" aria-selected="true">Shopee</a>
                 </li>
@@ -35,17 +35,13 @@
 
         <div class="col-lg-8 md-12">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
                 <div class="carousel-inner">
                     <div class="row" id="featured-cards"></div>
                     <script id="featured-store" type="text/x-handlebars-template"> 
                         {{#each data}}
                             <div class="carousel-item {{class}}">
-                                <img src="{{preview}}" class="d-block w-100" alt="...">
+                                <div class="image" style="background-image: url('{{preview}}')"></div>
+                                <!-- <img src="{{preview}}" class="d-block w-100" alt="..."> -->
                             </div>
                         {{/each}}
                     </script>
