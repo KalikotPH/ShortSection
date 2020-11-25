@@ -22,8 +22,10 @@
         <script id="shoppe-store-listing" type="text/x-handlebars-template"> 
             {{#each data}}
             <li class="list-group-item" style="margin-right: 7px; padding-left: 12px;">
-                <img src="https://wordpress.dev/wp-content/uploads/2020/11/a40cf4856225ed041378e8fff24b6bfcec226d3f-cache.jpg" 
-                    style="float: left; height: 100px; padding-right: 18px;"/>
+                <a href="{{preview}}" target="_blank">
+                    <img src="{{preview}}" 
+                        style="float: left; height: 100px; padding-right: 18px;"/>
+                </a>
                 <strong>{{title}}</strong>
                 <p style="font-style: italic; font-size: smaller;">{{address}}</p>
                 <!-- <span>Visit </span> <a target="_blank" href="{{redirect}}">{{platform}}</a> -->
